@@ -1,6 +1,6 @@
 package com.movie.catalog.model;
 
-public class actor {
+public class Actor {
     private long id;
     private String name;
     private String surName;
@@ -29,7 +29,7 @@ public class actor {
         this.surName = surName;
     }
 
-    public actor(long id, String name, String surName) {
+    public Actor(long id, String name, String surName) {
         this.id = id;
         this.name = name;
         this.surName = surName;

@@ -1,6 +1,6 @@
 package com.movie.catalog.model;
 
-public class movie {
+public class Movie {
     private long id;
     private String name;
     private Integer year;
@@ -8,7 +8,7 @@ public class movie {
     private String genre;
     private Integer rating;
 
-    public movie(long id,
+    public Movie(long id,
                  String name,
                  Integer year,
                  String shortDescription,
