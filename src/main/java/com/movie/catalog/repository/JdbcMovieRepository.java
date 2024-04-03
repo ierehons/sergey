@@ -3,7 +3,6 @@ package com.movie.catalog.repository;
 import com.movie.catalog.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,12 +11,12 @@ import java.util.List;
 public abstract class JdbcMovieRepository implements MovieRepository {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private JdbcMovie jdbcMovie;
 
     @Override
     public int save(Movie movie) {
         try {
-            return jdbcTemplate.update("INSERT INTO movies (name, " +
+            return jdbcMovie.update("INSERT INTO movies (name, " +
                             "year, shortDescription, genre, rating) VALUES(?,?,?,?,?)",
                     movie.getName(),
                     movie.getYear(),
@@ -32,9 +31,9 @@ public abstract class JdbcMovieRepository implements MovieRepository {
     @Override
     public int update(Movie movie) {
         try {
-            return jdbcTemplate.update("UPDATE movies SET title=?, " +
+            return jdbcMovie.update("UPDATE movies SET name=?, " +
                             "description=?, published=? WHERE id=?",
-                    movie.getTitle(), movie.getDescription(), movie.isPublished(), movie.getId());
+                    movie.getName(), movie.getShortDescription(), movie.isPublished(), movie.getId());
         } catch(Exception ex) {
             return 1;
         }
@@ -43,7 +42,7 @@ public abstract class JdbcMovieRepository implements MovieRepository {
     @Override
     public Movie findById(Long id) {
         try {
-            Movie movie = jdbcTemplate.queryForObject("SELECT * FROM movies WHERE id=?",
+            Movie movie = jdbcMovie.queryForObject("SELECT * FROM movies WHERE id=?",
                     BeanPropertyRowMapper.newInstance(Movie.class), id);
 
             return movie;
@@ -55,7 +54,7 @@ public abstract class JdbcMovieRepository implements MovieRepository {
     @Override
     public int deleteById(Long id) {
         try {
-            return jdbcTemplate.update("DELETE FROM movies WHERE id=?", id);
+            return jdbcMovie.update("DELETE FROM movies WHERE id=?", id);
         } catch (Exception ex) {
             return 1;
         }
@@ -64,28 +63,29 @@ public abstract class JdbcMovieRepository implements MovieRepository {
     @Override
     public List<Movie> findAll() {
         try {
-            return jdbcTemplate.query("SELECT * from movies",
+            return jdbcMovie.query("SELECT * from movies",
                     BeanPropertyRowMapper.newInstance(Movie.class));
         } catch (Exception ex) {
             return null;
         }
     }
 
+
     @Override
-    public List<Movie> findByPublished(boolean published) {
+    public List<Movie> findByGenre(Long genre) {
         try {
-            return jdbcTemplate.query("SELECT * from movies WHERE published=?",
-                    BeanPropertyRowMapper.newInstance(Movie.class), published);
+            return jdbcMovie.query("SELECT * from movies WHERE genre=?",
+                    BeanPropertyRowMapper.newInstance(Movie.class), genre);
         } catch (Exception ex) {
             return null;
         }
     }
 
     @Override
-    public List<Movie> findByTitleContaining(String title) {
-        String q = "SELECT * from movies WHERE title LIKE '%" + title + "%'";
+    public List<Movie> findByNameContaining(String name) {
+        String q = "SELECT * from movies WHERE title LIKE '%" + name + "%'";
         try {
-            return jdbcTemplate.query(q, BeanPropertyRowMapper.newInstance(Movie.class));
+            return jdbcMovie.query(q, BeanPropertyRowMapper.newInstance(Movie.class));
         } catch (Exception ex) {
             return null;
         }
@@ -94,7 +94,7 @@ public abstract class JdbcMovieRepository implements MovieRepository {
     @Override
     public int deleteAll() {
         try {
-            return jdbcTemplate.update("DELETE from movies");
+            return jdbcMovie.update("DELETE from movies");
         }catch (Exception ex) {
             return 1;
         }

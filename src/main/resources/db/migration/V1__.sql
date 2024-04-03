@@ -10,7 +10,7 @@ CREATE TABLE movie
     id BIGSERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(255),
     year INTEGER,
-    shortDescription VARCHAR(),
+    shortDescription VARCHAR(255),
     genre VARCHAR(255),
     rating INTEGER
 );
@@ -20,6 +20,7 @@ CREATE TABLE actor_movie
     actorId BIGINT NOT NULL,
     movieId BIGINT NOT NULL,
     FOREIGN KEY (movieId) REFERENCES movie (id),
-    FOREIGN KEY (actorId) REFERENCES actors (id),
+    FOREIGN KEY (actorId) REFERENCES actor (id),
     PRIMARY KEY (actorId, movieId)
 );
+
