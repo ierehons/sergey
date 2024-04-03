@@ -32,9 +32,19 @@ public abstract class JdbcMovieRepository implements MovieRepository {
     public int update(Movie movie) {
         try {
             return jdbcMovie.update("UPDATE movies SET name=?, " +
-                            "description=?, published=? WHERE id=?",
-                    movie.getName(), movie.getShortDescription(), movie.isPublished(), movie.getId());
-        } catch(Exception ex) {
+                            "year=?, " +
+                            "shortDescription=?, " +
+                            "genre=?, " +
+                            "rating=? " +
+                            "WHERE id=?",
+                    movie.getName(),
+                    movie.getYear(),
+                    movie.getShortDescription(),
+                    movie.getGenre(),
+                    movie.getRating(),
+                    movie.getId());
+        } catch (Exception ex) {
+
             return 1;
         }
     }
@@ -95,7 +105,7 @@ public abstract class JdbcMovieRepository implements MovieRepository {
     public int deleteAll() {
         try {
             return jdbcMovie.update("DELETE from movies");
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             return 1;
         }
     }
