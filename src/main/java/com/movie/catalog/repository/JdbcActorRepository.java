@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class JdbcActorRepository implements  ActorRepository{
+public class JdbcActorRepository implements ActorRepository {
     @Autowired
     private JdbcTemplate jdbcActor;
 
@@ -24,6 +24,7 @@ public class JdbcActorRepository implements  ActorRepository{
             return 1;
         }
     }
+
     @Override
     public int update(Actor actor) {
         try {
@@ -31,11 +32,12 @@ public class JdbcActorRepository implements  ActorRepository{
                             "surName=?  WHERE id=?",
                     actor.getName(),
                     actor.getSurName());
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return 1;
         }
     }
-    //    @Override
+
+    @Override
     public Actor findById(Long id) {
         try {
             Actor actor = jdbcActor.queryForObject("SELECT * FROM actor WHERE id=?",
@@ -46,6 +48,7 @@ public class JdbcActorRepository implements  ActorRepository{
             return null;
         }
     }
+
     @Override
     public int deleteById(Long id) {
         try {
@@ -62,6 +65,11 @@ public class JdbcActorRepository implements  ActorRepository{
 
     @Override
     public List<Actor> findBySurName(String surName) {
+        return null;
+    }
+
+    @Override
+    public List<Actor> findAll() {
         return null;
     }
 }
