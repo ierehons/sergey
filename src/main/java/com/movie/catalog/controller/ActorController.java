@@ -31,7 +31,7 @@ public class ActorController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            return new ResponseEntity<>(actor, HttpStatus.OK);
+            return new ResponseEntity<>(actors, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
