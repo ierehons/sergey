@@ -3,29 +3,31 @@ package com.movie.catalog.controller;
 import com.movie.catalog.model.Actor;
 import com.movie.catalog.repository.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapp("/api")
+@RequestMapping("/actor")
 public class ActorController {
 
     @Autowired
     private ActorRepository actorRepository;
 
     @GetMapping("/movies")
-    public ResponseEntity<List<Movie>> getAllMovies
+    public ResponseEntity<List<Actor>> getAllActors
             (@RequestParam(required = false) String name) {
         try {
-            List<Movie> movies;
+            List<Actor> actors;
 
             if (name == null)
-                movies = actorRepository.findAll();
+                actors = actorRepository.findAll();
             else
-                movies = actorRepository.findByActorContaining(name);
-            if (movies.isEmpty()) {
+                actors = actorRepository.findByName(name);
+            if (actors.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
@@ -35,7 +37,7 @@ public class ActorController {
         }
     }
 
-    @GetMapping("/actor/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Actor> getActorById(@PathVariable("id") long id) {
         Actor actor = actorRepository.findById(id);
 
@@ -46,7 +48,7 @@ public class ActorController {
         }
     }
 
-    @PostMapping("/actor")
+    @PostMapping()
     public ResponseEntity<String> createActor(@RequestBody Actor actor) {
         try {
             actorRepository.save(actor);
@@ -57,7 +59,7 @@ public class ActorController {
         }
     }
 
-    @PutMapping("/actor/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateActor(@PathVariable("id") long id,
                                               @RequestBody Actor actor) {
         Actor _actor = actorRepository.findById(id);
@@ -88,21 +90,4 @@ public class ActorController {
         }
     }
 
-    @GetMapping("/actor/name")
-    public ResponseEntity<List<Actor>> findById() {
-        try {
-            List<Actor> actor = ActorRepository.findById(true);
-
-            if (actor.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(actor, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public void setActorRepository(ActorRepository actorRepository) {
-        this.actorRepository = actorRepository;
-    }
 }

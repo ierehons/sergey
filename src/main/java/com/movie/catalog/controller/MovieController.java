@@ -3,13 +3,16 @@ package com.movie.catalog.controller;
 import com.movie.catalog.model.Movie;
 import com.movie.catalog.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
 
 @Controller
-@RequestMapp ("/api")
+@RequestMapping("/api")
 public class MovieController {
 
   @Autowired
@@ -24,7 +27,7 @@ public class MovieController {
       if (name == null)
         movies = movieRepository.findAll();
       else
-        movies = movieRepository.findByMovieContaining(name);
+        movies = movieRepository.findByNameContaining(name);
       if (movies.isEmpty()) {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       }
@@ -102,23 +105,5 @@ public class MovieController {
               HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-  }
-
-  @GetMapping("/movies/name")
-  public ResponseEntity<List<Movie>> findByName() {
-    try {
-      List<Movie> movies = movieRepository.findByName(true);
-
-      if (movies.isEmpty()) {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-      }
-      return new ResponseEntity<>(movies, HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  public void setMovieRepository(MovieRepository movieRepository) {
-    this.movieRepository = movieRepository;
   }
 }

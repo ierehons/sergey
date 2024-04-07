@@ -3,15 +3,16 @@ package com.movie.catalog.repository;
 import com.movie.catalog.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public abstract class JdbcMovieRepository implements MovieRepository {
+public class JdbcMovieRepository implements MovieRepository {
 
     @Autowired
-    private JdbcMovie jdbcMovie;
+    private JdbcTemplate jdbcMovie;
 
     @Override
     public int save(Movie movie) {

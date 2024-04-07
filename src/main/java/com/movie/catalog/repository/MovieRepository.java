@@ -19,7 +19,7 @@ public interface MovieRepository {
 
     List<Movie> findByNameContaining(String name);
 
-    List<Movie> deleteAll();
+    int deleteAll();
 
 
 }

@@ -3,21 +3,23 @@ package com.movie.catalog.repository;
 import com.movie.catalog.model.Actor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcActor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public class JdbcActorRepository implements  actorRepository{
+public class JdbcActorRepository implements  ActorRepository{
     @Autowired
-    private JdbcActor jdbcActor;
+    private JdbcTemplate jdbcActor;
 
     @Override
     public int save(Actor actor) {
         try {
             return jdbcActor.update("INSERT INTO actor (name, " +
                             "surName) VALUES(?,?)",
-                    movie.getName(),
-                    movie.getSurName());
+                    actor.getName(),
+                    actor.getSurName());
         } catch (Exception ex) {
             return 1;
         }
@@ -27,13 +29,13 @@ public class JdbcActorRepository implements  actorRepository{
         try {
             return jdbcActor.update("UPDATE actor SET name=?, " +
                             "surName=?  WHERE id=?",
-                    movie.getName(),
-                    movie.getSurName());
+                    actor.getName(),
+                    actor.getSurName());
         } catch(Exception ex) {
             return 1;
         }
     }
-    @Override
+//    @Override
     public Actor findById(Long id) {
         try {
             Actor actor = jdbcActor.queryForObject("SELECT * FROM actor WHERE id=?",
@@ -51,5 +53,15 @@ public class JdbcActorRepository implements  actorRepository{
         } catch (Exception ex) {
             return 1;
         }
+    }
+
+    @Override
+    public List<Actor> findByName(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Actor> findBySurName(String surName) {
+        return null;
     }
 }
